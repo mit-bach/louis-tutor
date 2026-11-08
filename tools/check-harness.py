@@ -88,7 +88,7 @@ def main():
         check("{{" not in text, "every template placeholder is filled")
         cs = os.path.join(course, ".claude", "settings.json")
         try:
-            same = json.load(open(cs)) == json.load(open(os.path.join(copy, ".claude", "settings.json")))
+            same = json.load(open(cs))["hooks"] == json.load(open(os.path.join(copy, ".claude", "settings.json")))["hooks"]
             cmd = json.load(open(cs))["hooks"]["SessionStart"][0]["hooks"][0]["command"]
             check(same and "$HOME/tutor/tools/session-context.py" in cmd,
                   "the course's own settings run the same hook as the root, by its fixed path")
@@ -97,6 +97,17 @@ def main():
         r = subprocess.run(["bash", os.path.join(copy, "tools", "new-course.sh"), "02-x", "X", "--session", "X",
                             "--format", "work-through"], capture_output=True, text=True, timeout=30)
         check(r.returncode != 0, "a non-default format without --asked is refused")
+
+        print("Every existing course's settings")
+        for cdir in sorted(os.listdir(os.path.join(ROOT, "courses"))):
+            cset = os.path.join(ROOT, "courses", cdir, ".claude", "settings.json")
+            if not os.path.isdir(os.path.join(ROOT, "courses", cdir)):
+                continue
+            try:
+                ok = json.load(open(cset)).get("hooks") == json.load(open(os.path.join(ROOT, ".claude", "settings.json")))["hooks"]
+                check(ok, "courses/%s runs the same startup hook as the root (its own permissions may differ)" % cdir)
+            except Exception as e:
+                check(False, "courses/%s has a valid .claude/settings.json (%s)" % (cdir, e))
 
         print("The startup hook, in the temporary copy")
         out = hook(copy, {"session_title": "Check Tutor", "cwd": course})

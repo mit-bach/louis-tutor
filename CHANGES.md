@@ -2,6 +2,10 @@
 
 Each version of the harness, newest first. An update arrives as new commits in this repository. You merge it yourself (`git pull`), one change at a time if you like, with Tutor Orch's help (`orchestrator/ORCHESTRATOR.md`). Log in `orchestrator/RULES-LOG.md` what you took, what you left, and why. Your own edits are never overwritten.
 
+## 1.0.2 · 2026-11-08 · A course's settings may carry its own permissions
+
+- **`check-harness.py`** compares only the startup hook between a course's settings and the root's, so a course can add its own permissions, such as the store course's block on editing his backend. It also checks every existing course's settings, not just a new one.
+
 ## 1.0.1 · 2026-11-08 · One fixed path for the startup hook
 
 - **Every `.claude/settings.json`,** in the root and in each course, runs the hook as `$HOME/tutor/tools/session-context.py`, so it works whichever folder Claude Code treats as the project. In a git clone that might be the clone's top folder rather than the course folder. `new-course.sh` now copies the root's file as it is.
