@@ -38,7 +38,7 @@ Use the `berth` MCP's `create`, never a terminal command:
 - `title`: the course's session name;
 - filed in the Berth folder `Tutor/`.
 
-If the fork carries a long conversation, compact it through Berth's `compact` with a note giving the TASK, the SEAT (its name and course) and the SOURCES, then check its `compaction.state` before you go on. Never type or paste `/compact`.
+If the fork carries a long conversation, compact it the way `orchestrator/ORCHESTRATOR.md` §5a says, then check its `compaction.state` before you go on.
 
 ## 4. Place the first brief, unsent
 

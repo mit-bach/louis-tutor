@@ -47,10 +47,18 @@ The `new-course` skill (`.claude/skills/new-course/SKILL.md`) does this with him
 1. **Get the brief:** what he wants to understand, in his words, whether he wrote it or someone gave it to him. If it's a list of things to show, ask what he wants to understand.
 2. **Create the course:** `tools/new-course.sh <NN-slug> "<Title>" --session "<session name>"`, with the format the brief calls for (`formats/REGISTRY.md` §2). Add its row to `README.md`.
 3. **Fork Tutor Prime into the course's folder** through Berth: `create` with `from` = "Tutor Prime", `cwd` = the course folder, and `title` = the course's session name, filed in the Berth folder `Tutor/`. If a recent tutor in a nearby course went well, fork that one instead.
-4. **To compact a fork** (when it carries a long conversation), always go through Berth, with a note that gives the TASK, the SEAT (its name and course) and the SOURCES. Never type or paste `/compact` into a session: it arrives as a plain message, and the session may take the note as its job. Check that the compaction finished before you brief it.
+4. **If the fork carries a long conversation, compact it** the way §4a says, and check that the compaction finished before you brief it.
 5. **Place the first brief in its prompt box, unsent,** so he reads it and sends it himself. Write it in his voice, with the details in it: the goal, the sources, the sliders if any, and what Lesson 01 must give him. A short "read this file" isn't a brief.
    - Placing text in a pane: paste the first paragraph from a file with no line breaks, because a line break can submit the box. Keep each paste under about 850 bytes, or it collapses into a "[Pasted text]" placeholder. Type the rest as short text lines.
 6. **Check the hook finds it:** `echo '{"session_title":"<session name>","cwd":"<course folder>"}' | python3 tools/session-context.py | head -6`.
+
+## 5a. Compacting any session
+
+Any session here can be compacted: a fresh fork, a tutor deep into its course, Tutor Orch itself. Always do it through Berth (its `compact`, with a note), never by typing or pasting `/compact` into the session. A pasted `/compact` arrives as a plain message, and the session may take the note as its job.
+- **The note gives the TASK** (what the summary is for), **the SEAT** (the session's name, its course or role, and whose work it leaves alone), and **the SOURCES** (the files it should read again).
+- **Add a KEEP OUT only on purpose,** with why. Never list what to keep or drop: the session decides that better itself, and Berth refuses such lists.
+- **Check Berth's `compaction.state`** before you send the session anything else.
+- **Afterwards,** the session's startup hook re-injects its identity and course, and it re-reads its files (`CLAUDE.md` §0).
 
 ## 6. A periodic check (when he asks for one)
 

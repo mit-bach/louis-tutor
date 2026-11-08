@@ -2,6 +2,10 @@
 
 Each version of the harness, newest first. An update arrives as new commits in this repository. You merge it yourself (`git pull`), one change at a time if you like, with Tutor Orch's help (`orchestrator/ORCHESTRATOR.md`). Log in `orchestrator/RULES-LOG.md` what you took, what you left, and why. Your own edits are never overwritten.
 
+## 1.0.3 · 2026-11-08 · Compacting any session
+
+- **`orchestrator/ORCHESTRATOR.md` §5a:** how to compact any session through Berth, not only a fresh fork: the note's TASK, SEAT and SOURCES, never a keep-or-drop list, and checking `compaction.state`. The `new-course` skill points to it.
+
 ## 1.0.2 · 2026-11-08 · A course's settings may carry its own permissions
 
 - **`check-harness.py`** compares only the startup hook between a course's settings and the root's, so a course can add its own permissions, such as the store course's block on editing his backend. It also checks every existing course's settings, not just a new one.
