@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/tools/session-context.py\" identity", "timeout": 10 },
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/tools/session-context.py\" course", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}
