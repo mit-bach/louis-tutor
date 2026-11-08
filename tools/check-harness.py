@@ -56,6 +56,12 @@ def main():
         check(any("session-context.py" in c for c in cmds), ".claude/settings.json runs the startup hook")
     except Exception as e:
         check(False, ".claude/settings.json is valid JSON (%s)" % e)
+    home = os.path.realpath(os.path.expanduser("~/tutor"))
+    if os.path.realpath(ROOT) == home:
+        check(True, "the harness is at ~/tutor, where the hooks look for it")
+    else:
+        print("  note  the harness isn't at ~/tutor (it's at %s). The hooks run ~/tutor/tools/session-context.py,"
+              " so they'll only work once it's installed there (INSTALL.md)." % ROOT)
 
     print("Python tools compile")
     for rel in ["tools/session-context.py", "tools/lint-lesson.py", "tools/check-harness.py", "orchestrator/tools/tx.py"]:
@@ -82,8 +88,10 @@ def main():
         check("{{" not in text, "every template placeholder is filled")
         cs = os.path.join(course, ".claude", "settings.json")
         try:
+            same = json.load(open(cs)) == json.load(open(os.path.join(copy, ".claude", "settings.json")))
             cmd = json.load(open(cs))["hooks"]["SessionStart"][0]["hooks"][0]["command"]
-            check("../../tools/session-context.py" in cmd, "the course's own settings point two folders up at the hook")
+            check(same and "$HOME/tutor/tools/session-context.py" in cmd,
+                  "the course's own settings run the same hook as the root, by its fixed path")
         except Exception as e:
             check(False, "the course has a valid .claude/settings.json (%s)" % e)
         r = subprocess.run(["bash", os.path.join(copy, "tools", "new-course.sh"), "02-x", "X", "--session", "X",

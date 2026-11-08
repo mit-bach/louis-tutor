@@ -50,22 +50,10 @@ cp -R "$ROOT/_template/course" "$DEST"
 find "$DEST" -name .gitkeep -delete
 mkdir -p "$DEST/lessons" "$DEST/prompts"
 # The startup hook: Claude Code reads .claude/settings.json only from the folder a session starts in,
-# so a tutor started in its course folder needs its own copy, pointing two folders up.
+# so a tutor started in its course folder needs its own copy. It's the same file as the root's: the hook's
+# path is absolute ($HOME/tutor), so it works whatever Claude Code takes as the project folder.
 mkdir -p "$DEST/.claude"
-cat > "$DEST/.claude/settings.json" <<'JSON'
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/../../tools/session-context.py\" identity", "timeout": 10 },
-          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/../../tools/session-context.py\" course", "timeout": 10 }
-        ]
-      }
-    ]
-  }
-}
-JSON
+cp "$ROOT/.claude/settings.json" "$DEST/.claude/settings.json"
 NN="${SLUG%%-*}"; DATE="$(date +%F)"
 find "$DEST" -type f -name '*.md' -print0 | while IFS= read -r -d '' f; do
   python3 - "$f" "$NN" "$TITLE" "$DATE" "$ORIGIN" "$FORMAT" "$FORMAT_SET" "$SESSION" "$EXTRA_ROWS" <<'PY'

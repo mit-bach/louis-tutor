@@ -3,6 +3,7 @@
 **Agent:** you're installing Louis's tutor harness, in a chat that runs inside cmux with Berth already installed (its `berth` and `cmux-mcp` MCP servers connected). Explain each step to him in plain words, and ask before anything that changes his Mac.
 
 1. **Clone it to `~/tutor`,** where it stays for good: `git clone https://github.com/mit-bach/louis-tutor ~/tutor`. If `~/tutor` already exists, ask him what it is, and if it's this harness, `git -C ~/tutor pull` instead.
+   - **It must be exactly `~/tutor`.** Every startup hook, in the root and in each course, runs `$HOME/tutor/tools/session-context.py` by that fixed path, so it works whichever folder Claude Code treats as the project. If he ever wants it elsewhere, change that path in `.claude/settings.json` and in every `courses/*/.claude/settings.json`, through Tutor Orch, and log it.
 2. **Run the self-check:** `python3 ~/tutor/tools/check-harness.py`. It works in a temporary copy, and must end with "Everything passed." If it doesn't, stop and tell him which check failed.
 3. **Make the Berth folder `Tutor`,** through the `berth` MCP.
 4. **Start Tutor Orch:** a new Claude session through the `berth` MCP's `create`, with `cwd` `~/tutor`, `title` "Tutor Orch", filed in `Tutor`. Its job is in `orchestrator/ORCHESTRATOR.md`, and the startup hook tells it so.

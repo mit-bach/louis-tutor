@@ -39,7 +39,7 @@ Open the session "Tutor Orch" and tell it what you want to learn, in your own wo
 
 ## When things run
 
-- **The startup hook** (`tools/session-context.py`) runs whenever a session here starts, resumes, is forked, or comes back from a compaction. It tells the session which course or role it serves, from its name, and injects that course's `COURSE.md`. Rules never come from the hook; they're in the `CLAUDE.md` files. Claude Code reads settings only from the folder a session starts in, so every course folder has its own `.claude/settings.json`.
+- **The startup hook** (`tools/session-context.py`) runs whenever a session here starts, resumes, is forked, or comes back from a compaction. It tells the session which course or role it serves, from its name, and injects that course's `COURSE.md`. Rules never come from the hook; they're in the `CLAUDE.md` files. Claude Code reads settings only from the folder a session starts in, so every course folder has its own `.claude/settings.json`. All of them run the hook by one fixed path, `~/tutor/tools/session-context.py`, which is why the harness must live at `~/tutor`.
 - **The linter** (`tools/lint-lesson.py`) runs before a tutor sends a lesson.
 - **The self-check** (`tools/check-harness.py`) runs after an install or an update, and whenever you change a tool.
 

@@ -2,6 +2,12 @@
 
 Each version of the harness, newest first. An update arrives as new commits in this repository. You merge it yourself (`git pull`), one change at a time if you like, with Tutor Orch's help (`orchestrator/ORCHESTRATOR.md`). Log in `orchestrator/RULES-LOG.md` what you took, what you left, and why. Your own edits are never overwritten.
 
+## 1.0.1 · 2026-11-08 · One fixed path for the startup hook
+
+- **Every `.claude/settings.json`,** in the root and in each course, runs the hook as `$HOME/tutor/tools/session-context.py`, so it works whichever folder Claude Code treats as the project. In a git clone that might be the clone's top folder rather than the course folder. `new-course.sh` now copies the root's file as it is.
+- **`check-harness.py`** checks that every course's settings match the root's, and notes when the harness isn't at `~/tutor`.
+- **`INSTALL.md` and `README.md`** say the harness must live at `~/tutor`.
+
 ## 1.0.0 · 2026-11-08 · The first version
 
 Ported from the tutor system Dominik uses every day, with its company parts taken out.
