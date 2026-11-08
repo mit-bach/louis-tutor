@@ -6,7 +6,7 @@ usage: python3 tx.py FILE [--since ISO] [--until ISO] [--users] [--reads] [--edi
 
   default   one line per event: time, kind, short content
             kinds: USER (his typed text), ASSIST (assistant text), TOOL (tool call),
-                   COMPACT (a compaction boundary/summary), RULES (CLAUDE.md injected)
+                   COMPACT (a compaction boundary/summary), RULES (a CLAUDE.md or other rules file loaded)
   --users   only USER lines, full text (his words, verbatim)
   --reads   only Read/cat-style file reads (path), to see what the session read
   --edits   only Write/Edit calls (path + old/new excerpt)
@@ -47,6 +47,16 @@ for line in open(a.file, errors="replace"):
     if a.since and ts and ts < a.since: continue
     if a.until and ts and ts > a.until: continue
     t = d.get("type")
+    if t == "attachment":
+        # Newer Claude Code records the rules files it loaded as an attachment, not as text:
+        # "instructions" at session start, "nested_memory" when a subfolder's CLAUDE.md loads later.
+        att = d.get("attachment") or {}
+        if att.get("type") in ("instructions", "nested_memory") and not (a.users or a.reads or a.edits):
+            files = att.get("files") or ([att] if att.get("path") else [])
+            for f in files:
+                if f.get("path"):
+                    emit(ts, "RULES", f["path"] + ("" if att.get("type") == "instructions" else "  (loaded later, from a subfolder)"))
+        continue
     if t == "system" and d.get("subtype") == "compact_boundary":
         if not (a.users or a.reads or a.edits): emit(ts, "COMPACT", "---- compaction boundary ----")
         continue

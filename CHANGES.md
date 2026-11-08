@@ -2,6 +2,10 @@
 
 Each version of the harness, newest first. An update arrives as new commits in this repository. You merge it yourself (`git pull`), one change at a time if you like, with Tutor Orch's help (`orchestrator/ORCHESTRATOR.md`). Log in `orchestrator/RULES-LOG.md` what you took, what you left, and why. Your own edits are never overwritten.
 
+## 1.0.4 · 2026-11-08 · tx.py sees which rules files a session loaded
+
+- **`orchestrator/tools/tx.py`** prints a RULES line for every rules file a session loaded, as recorded by current Claude Code (an "instructions" attachment at start, "nested_memory" when a subfolder's file loads later). Older transcripts still work the old way. Before this, it printed none on current versions.
+
 ## 1.0.3 · 2026-11-08 · Compacting any session
 
 - **`orchestrator/ORCHESTRATOR.md` §5a:** how to compact any session through Berth, not only a fresh fork: the note's TASK, SEAT and SOURCES, never a keep-or-drop list, and checking `compaction.state`. The `new-course` skill points to it.
